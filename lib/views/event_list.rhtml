@@ -1,0 +1,28 @@
+
+<% if events && events.length > 0 then %>
+
+  <% events.each do |event| %>
+
+  <div class="event_index_entry" 
+       <%= gui.context_menu(:entity => event, 
+                            :params => { :date => date.strftime("%Y.%m.%d") }, 
+                            :id => "event_entry_#{event.event_id}") 
+       %>
+  >
+    <h3><%= event.date_begin %>: <%= event.name %></h3>
+    <b style="font-size: 12; padding: 0px; margin: 0px; ">
+      <%= event.time_begin %> - <%= event.time_end %>
+    </b>
+    <%= event.description %> <br />
+    <%= tl(:categories) %>: <%= event.categories.map { |c| gui.link_to(c) { c.category_name } }.join(', ') %>
+    <br />
+    <%= tl(:tags) %>: 
+    <% event.tags.split(' ').each do |tag| %>
+      <%= gui.link_to(:controller => 'App_Main', :action => :find, :key => tag) { tag } %>
+    <% end %>
+    
+  </div>
+
+  <% end %>
+
+<% end %>

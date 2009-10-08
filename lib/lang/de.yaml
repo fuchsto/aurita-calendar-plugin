@@ -1,0 +1,33 @@
+plugin_name : Kalender und Termine
+
+events : Termine
+event : Termin
+
+public--event--name : Name
+public--event--description : Beschreibung
+public--event--date_begin : Datum
+public--event--date_end : Enddatum (optional)
+public--event--time_begin : Von (Uhrzeit)
+public--event--time_end : Bis (Uhrzeit)
+
+delete_event : Termin l&ouml;schen
+edit_event : Termin bearbeiten
+calendar : Kalender
+add_event : Neuer Termin
+
+upcoming_events : Anstehende Termine
+
+add_event_on_this_day : Termin an diesem Tag anlegen
+no_events : Keine Termine
+your_events_on_date : Ihre Termine am
+
+timespan : Uhrzeit
+
+create_events : Termine anlegen
+edit_foreign_events : Fremde Termine bearbeiten
+see_calendar : Kalender anzeigen
+
+repeat_weekly : W&ouml;chentlich wiederholen
+repeat_monthly : Monatlich wiederholen
+repeat_annual : J&auml;hrlich wiederholen
+no_repeat : Keine Wiederholung

@@ -1,0 +1,25 @@
+
+events : Events
+event : Event
+
+public--event--name : Name
+public--event--description : Description
+public--event--date_begin : From (date)
+public--event--date_end : To (date)
+public--event--time_begin : From (time)
+public--event--time_end : To (time)
+
+time_begin : From (time)
+time_end : To (time)
+
+delete_event : Delete event
+edit_event : Edit event
+calendar : Calendar
+add_event : Add event
+
+upcoming_events : Upcoming events
+
+add_event_on_this_day : Add event on this day
+no_events : No events
+your_events_on_date : Your events on 
+

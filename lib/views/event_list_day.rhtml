@@ -1,0 +1,58 @@
+
+
+<div class="section_header">
+  <div class="section_header_left">
+    <h2><%= tl(:your_events_on_date) %> <%= gui.date(date) %></h2>
+  </div>
+</div>
+<div style="clear: both;"></div>
+
+<div id="event_index" class="section_content">
+
+<% if Aurita.user.may(:create_events) then %>
+  <%= gui.button(:onclick => gui.link_to(:controller => 'Calendar::Event', :action => :add, :date_begin => gui.date(date))) { tl(:add_event) } %>
+<% end %>
+  <br />
+
+  <div class="topic_inline">
+    <% if events && events.length > 0 then %>
+
+    <% events.each do |event| %>
+
+    <div class="event_index_entry" 
+         <%= gui.context_menu(:entity => event, 
+                              :params => { :date => date.strftime("%Y.%m.%d") }, 
+                              :id => "event_entry_#{event.event_id}") 
+         %>
+    >
+      <h3 style="font-size: 12; padding: 0px; margin: 0px; ">
+        <%= event.name %>
+      </h3>
+      <b>
+        <%= event.time_begin %> - <%= event.time_end %>
+      </b>
+      <%= event.description %> <br />
+      <%= tl(:categories) %>: <%= event.categories.map { |c| gui.link_to(c) { c.category_name } }.join(', ') %>
+      <br />
+      <%= tl(:tags) %>: 
+      <% event.tags.split(' ').each do |tag| %>
+        <%= gui.link_to(:controller => 'App_Main', :action => :find, :key => tag) { tag } %>
+      <% end %>
+    </div>
+    <% end %>
+      
+  </div>
+
+
+<% else %>
+
+  <div class="topic_inline">
+    <div class="event_index_entry" 
+      <%= tl(:no_events) %>
+    </div>
+  </div>
+
+<% end %>
+
+</div>
+

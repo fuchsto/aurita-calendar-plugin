@@ -1,0 +1,104 @@
+<%
+	
+    month_names = { 
+      '01' => tl(:january), 
+      '02' => tl(:february), 
+      '03' => tl(:march), 
+      '04' => tl(:april), 
+      '05' => tl(:may), 
+      '06' => tl(:june), 
+      '07' => tl(:july), 
+      '08' => tl(:august), 
+      '09' => tl(:september), 
+      '10' => tl(:october), 
+      '11' => tl(:november), 
+      '12' => tl(:december)
+    }
+
+    prev_month = (month.to_i-1).to_s
+    next_month = (month.to_i+1).to_s
+    prev_year = year.to_i
+    next_year = year.to_i
+    if(month.to_i == 1) then
+      prev_month = 12
+      prev_year = year.to_i - 1
+    elsif(month.to_i == 12) then
+      next_month = 1
+      next_year = year.to_i + 1
+    end
+    prev_month = 'Calendar::Calendar/show/year='+(prev_year).to_s+'&month='+(prev_month).to_s
+    next_month = 'Calendar::Calendar/show/year='+(next_year).to_s+'&month='+(next_month).to_s
+
+%>
+
+<table cellpadding="0" cellspacing="0" class="calendar_mini_month">
+  <tr>
+    <td colspan="8" height="25" align="center">
+      <font><nobr>
+        <a onclick="Aurita.load({ element: 'calendar_box_month', action: '<%= prev_month %>' }); ">((</a>
+        &nbsp; &nbsp; 
+          <font style="font-size: 12px; padding: 0px; margin: 0px; line-height: 13px; "><b><%= month_names[date.strftime("%m")] + " " << year.to_s %></b></font>
+        &nbsp; &nbsp; 
+        <a onclick="Aurita.load({ element: 'calendar_box_month', action: '<%= next_month %>' }); ">))</a>
+      </nobr></font>
+    </td>
+  </tr>
+  <tr><td height="10" colspan="7"></td></tr>
+  <tr>
+<% ['KW','Mo','Di','Mi','Do','Fr','Sa', 'So'].each do |index| %>
+    <td style="text-align: center; " class="darker_bg" ><%= index %></td>
+<% end %>
+  </tr>
+  <tr>
+    <td style="text-align: center; " class="darker_bg" ><%= Month.new(year,month).days.first.cweek %></td>
+<% 
+  count = 1
+  Month.new(year,month).days.each do |day|
+%>
+  <% 
+    provide_link = true
+    if day.is_proxy? then
+      style = 'color: #555555;'
+      provide_link = false
+    elsif day.today? then 
+      style = 'color: #ff0000;'
+    elsif day.is_weekend? and !day.is_proxy? then
+      style = 'color: #999999;'
+    else 
+      style = ''
+    end
+
+    events = []
+    events = Aurita::Plugins::Calendar::Event.events_for(day, Aurita.user.categories.map { |c| c.category_id })
+    if events.length > 0 then 
+      style << ' font-weight: bold; '
+    end
+  %>
+
+  <td height="17" width="35" style="text-align: center; ">
+    <%= 
+    if provide_link then 
+      gui.link_to(:controller => 'Calendar::Event', 
+                  :action => :list, 
+                  :day => year.to_s+'.'+day.strftime("%m")+'.'+day.strftime("%d") ) { 
+        ('<span style="' << style + '">' << day.strftime("%d") + '</span>') 
+      } 
+    else 
+      '<span style="'+style+'"></span>' 
+    end 
+    %> 
+
+  <% if (count % 7) == 0 then %>
+</tr>
+<tr>
+    <% if provide_link then %>
+      <td style="text-align: center; width: 35px;" class="darker_bg"><%= day.cweek+1 %></td>
+    <% end %>
+  <% end %>
+
+<% 
+  count += 1 
+  end 
+%>
+  </tr>
+</table>
