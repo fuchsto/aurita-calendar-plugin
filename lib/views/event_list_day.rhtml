@@ -9,9 +9,11 @@
 
 <div id="event_index" class="section_content">
 
-<% if Aurita.user.may(:create_events) then %>
-  <%= gui.button(:onclick => gui.link_to(:controller => 'Calendar::Event', :action => :add, :date_begin => gui.date(date))) { tl(:add_event) } %>
-<% end %>
+  <div class="button_bar">
+  <% if Aurita.user.may(:create_events) then %>
+    <%= gui.button(:onclick => gui.link_to(:controller => 'Calendar::Event', :action => :add, :date_begin => gui.date(date))) { tl(:add_event) } %>
+  <% end %>
+  </div>
   <br />
 
   <div class="topic_inline">
