@@ -62,46 +62,6 @@ class Month
   end
 end
 
-#
-# cal = Calendar.new(:year => 2007, :month => 1
-class Calendar
-
-  def self.lang_weekday
-  { 
-    'Mon' => 'Mo',
-    'Tue' => 'Di',
-    'Wed' => 'Mi',
-    'Thu' => 'Do',
-    'Fri' => 'Fr',
-    'Sat' => 'Sa',
-    'Sun' => 'So',
-  }
-  end
-
-  def self.weekdays
-    ['Mo',
-     'Di',
-     'Mi',
-     'Do',
-     'Fr',
-     'Sa',
-     'So']
-  end
-
-  def self.weekday(date)
-    dayname = date.strftime("%a")
-    date.strftime("%d").gsub(dayname, Calendar.lang_weekday[dayname]) 
-  end
-
-  def initialize(args={})
-    # e.g. 2007-11-1 for Nov. 2007
-    raise ArgumentException unless (args[:year])
-    @year = args[:year]
-    @base_date = Date.civil(args[:year])
-    
-  end
-
-end
 
 =begin
 (5..12).each { |month| 

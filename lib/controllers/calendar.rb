@@ -2,7 +2,6 @@
 require('aurita/plugin_controller')
 Aurita.import_plugin_controller :calendar, :event
 Aurita.import_plugin_model :calendar, :event
-Aurita.import_plugin_module :calendar, :calendar
 
 module Aurita
 module Plugins
@@ -11,7 +10,7 @@ module Calendar
   class Calendar_Controller < Plugin_Controller
 
     use_cache Cache::Simple
-    cache_actions :show, :show_string, :calendar_box, :day
+    cache_actions :show, :show_string, :day
 
     def calendar_box
       return unless Aurita.user.may(:see_calendar)
@@ -34,6 +33,8 @@ module Calendar
     end
     
     def show_string(year=nil, month=nil)
+      return unless Aurita.user.may(:see_calendar)
+
       if month.nil? or year.nil? then
         d = Time.now
         year = d.year
@@ -46,6 +47,8 @@ module Calendar
     end
 
     def show
+      return unless Aurita.user.may(:see_calendar)
+
       year  = param(:year)
       month = param(:month)
       puts show_string(year, month)
