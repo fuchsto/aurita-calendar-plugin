@@ -50,7 +50,7 @@
 <% end %>
   </tr>
   <tr>
-    <td style="text-align: center; " class="darker_bg" ><%= Month.new(year,month).days.first.cweek %></td>
+    <td style="text-align: center; " class="darker_bg" ><%= (Month.new(year,month).days.first.cweek) %></td>
 <% 
   count = 1
   Month.new(year,month).days.each do |day|
@@ -92,7 +92,7 @@
 </tr>
 <tr>
     <% if provide_link then %>
-      <td style="text-align: center; width: 35px;" class="darker_bg"><%= day.cweek+1 %></td>
+      <td style="text-align: center; width: 35px;" class="darker_bg"><%= (day.cweek < 53)? day.cweek+1 : 1 %></td>
     <% end %>
   <% end %>
 

@@ -13,7 +13,8 @@ module Calendar
     cache_actions :show, :show_string, :day
 
     def calendar_box
-      return unless Aurita.user.may(:see_calendar)
+    # return unless Aurita.user.may(:see_calendar)
+      
       body = []
 
       if Aurita.user.may(:create_events) then
@@ -24,34 +25,39 @@ module Calendar
         } 
         body << add_event
       end
-      body << HTML.div(:id => :calendar_box_month) { show_string }
+      body << HTML.div(:id => :calendar_box_month) { calendar_box_body }
 
-      box        = Box.new(:type => 'Calendar::calendar', :class => :topic, :id => 'calendar_box')
+      box        = Box.new(:type  => 'Calendar::calendar', 
+                           :class => :topic, 
+                           :id    => 'calendar_box')
       box.header = tl(:calendar)
       box.body   = body 
       return box
     end
     
-    def show_string(year=nil, month=nil)
-      return unless Aurita.user.may(:see_calendar)
+    def calendar_box_body(year=nil, month=nil)
+    # return unless Aurita.user.may(:see_calendar)
 
       if month.nil? or year.nil? then
-        d = Time.now
-        year = d.year
+        d     = Time.now
+        year  = d.year
         month = d.month
       end
-      view_string(:calendar, 
-                  :year => year.to_i, 
-                  :month => month.to_i, 
-                  :date => Date.civil(year.to_i, month.to_i))
+
+      HTML.div { 
+        view_string(:calendar, 
+                    :year  => year.to_i, 
+                    :month => month.to_i, 
+                    :date  => Date.civil(year.to_i, month.to_i))
+      }
     end
 
     def show
-      return unless Aurita.user.may(:see_calendar)
+    # return unless Aurita.user.may(:see_calendar)
 
       year  = param(:year)
       month = param(:month)
-      puts show_string(year, month)
+      calendar_box_body(year, month)
     end
 
     def day

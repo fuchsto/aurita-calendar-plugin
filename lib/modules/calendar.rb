@@ -25,7 +25,7 @@ class Month
   attr_accessor :start_week_day
 
   def initialize(year, month)
-    @date = Date.civil(year, month)
+    @date  = Date.civil(year, month)
     @month = month
     @start_week_day = 1
   end
@@ -62,30 +62,3 @@ class Month
   end
 end
 
-
-=begin
-(5..12).each { |month| 
-  puts Date.civil(2007,month).strftime("%B 2007")
-  puts Calendar.weekdays.join(' ')
-  puts '--------------------'
-  count = 1
-  Month.new(2007,month).days.each { |date|
-    if date.is_proxy? then
-      STDOUT << ' - '
-    else
-      if date.is_weekend? then
-        STDOUT << Calendar.weekday(date) + '-'
-      elsif date.today? then
-        STDOUT << ' ! '
-      else
-        STDOUT << Calendar.weekday(date) + ' '
-      end
-    end
-    if count > 0 and (count % 7) == 0 then
-      puts ''
-    end
-    count += 1
-  }
-  puts "\n\n"
-}
-=end
