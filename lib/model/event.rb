@@ -37,13 +37,13 @@ module Calendar
       events = []
       # Immediate hits without repetition
       events +=  Event.select { |e|
-        e.where((e.date_begin == date) & (e.date_end >= e.date_begin) & (Event.is_accessible))
+        e.where((e.date_begin == date) & (e.date_end >= e.date_begin) & (Event.accessible))
         e.order_by(:time_begin, :asc)
       }.to_a
 
       # Annual repetition
       Event.select { |e| 
-        e.where((Event.is_accessible) & (((e.date_begin <= date) & (e.date_end == e.date_begin) & (e.repeat_annual == 't')) | 
+        e.where((Event.accessible) & (((e.date_begin <= date) & (e.date_end == e.date_begin) & (e.repeat_annual == 't')) | 
                                      ((e.date_begin <= date) & (e.date_end >= date) & (e.repeat_annual == 't'))))
         e.order_by(:time_begin, :asc)
       }.each { |evt|
@@ -51,7 +51,7 @@ module Calendar
       }
       # Monthly repetition by date
       Event.select { |e|
-        e.where((Event.is_accessible) & (((e.date_begin <= date) & (e.date_end == e.date_begin) & (e.repeat_monthly == mday)) | 
+        e.where((Event.accessible) & (((e.date_begin <= date) & (e.date_end == e.date_begin) & (e.repeat_monthly == mday)) | 
                                      ((e.date_begin <= date) & (e.date_end >= date) & (e.repeat_monthly == mday))))
         e.order_by(:time_begin, :asc)
       }.each { |evt|
@@ -59,7 +59,7 @@ module Calendar
       }
       # Weekly repetition by day
       Event.select { |e|
-        e.where((Event.is_accessible) & (((e.date_begin <= date) & (e.date_end == e.date_begin) & (e.repeat_weekly == wday)) | 
+        e.where((Event.accessible) & (((e.date_begin <= date) & (e.date_end == e.date_begin) & (e.repeat_weekly == wday)) | 
                                      ((e.date_begin <= date) & (e.date_end >= date) & (e.repeat_weekly == wday))))
         e.order_by(:time_begin, :asc)
       }.each { |evt|
