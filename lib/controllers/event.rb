@@ -8,8 +8,8 @@ module Calendar
 
   class Event_Controller < Plugin_Controller
 
-    use_cache Cache::Simple
-    cache_actions :show, :list
+ #  use_cache Cache::Simple
+ #  cache_actions :show, :list
 
     def form_groups
       [
@@ -141,7 +141,9 @@ module Calendar
       puts tl(:event_has_been_added)
     end
 
-    def list
+    # Collects plugin responses for hook calendar.event.list
+    #
+    def list(params={})
       date_str  = params[:date_str]
       user_cats = Aurita.user.categories.map { |c| c.category_id }
       date_str  = param(:day) unless date_str
@@ -149,6 +151,38 @@ module Calendar
                              date_str[5..6].to_i, 
                              date_str[8..9].to_i)
 
+      plugin_get(Hook.calendar.event.list_day, :date => date)
+    end
+
+    def month(params={})
+      month_str   = params[:month]
+      month_str ||= param(:month)
+
+      y = month_str[0..3].to_i
+      m = month_str[5..6].to_i
+      month = Date.civil(y, m)
+      if m < 12 then
+        month_end = Date.civil(y, m+1)-1
+      else # year overlap
+        month_end = Date.civil(y+1, 1)-1
+      end
+
+      plugin_get(Hook.calendar.event.list_month, :from_date => month, :to_date => month_end)
+    end
+
+    def week(params={})
+      cweek   = params[:cweek]
+      cweek ||= param(:cweek)
+      
+      y = month_str[0..3].to_i
+      w = month_str[5..6].to_i
+      week = Date.commercial(y, w)
+      week_end = week+7
+
+      plugin_get(Hook.calendar.event.list_week, :from_date => week, :to_date => week_end)
+    end
+
+    def events_on_day(date)
       render_view(:event_list_day, 
                   :events => Event.events_for(date, user_cats), 
                   :date   => date)

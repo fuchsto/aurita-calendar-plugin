@@ -37,7 +37,15 @@
       <font><nobr>
         <a onclick="Aurita.load({ element: 'calendar_box_month', action: '<%= prev_month %>' }); ">((</a>
         &nbsp; &nbsp; 
-          <font style="font-size: 12px; padding: 0px; margin: 0px; line-height: 13px; "><b><%= month_names[date.strftime("%m")] + " " << year.to_s %></b></font>
+        <font style="font-size: 12px; padding: 0px; margin: 0px; line-height: 13px; ">
+          <b>
+            <%= 
+              gui.link_to(:controller => 'Calendar::Event', :action => :month, :month => date.strftime("%Y-%m")) { 
+                month_names[date.strftime("%m")] + " " << year.to_s 
+              }
+            %>
+          </b>
+        </font>
         &nbsp; &nbsp; 
         <a onclick="Aurita.load({ element: 'calendar_box_month', action: '<%= next_month %>' }); ">))</a>
       </nobr></font>
@@ -69,7 +77,7 @@
     end
 
     events = []
-    events = Aurita::Plugins::Calendar::Event.events_for(day, Aurita.user.categories.map { |c| c.category_id })
+    events = Aurita::Plugins::Calendar::Event.events_for(day, Aurita.user.category_ids)
     if events.length > 0 then 
       style << ' font-weight: bold; '
     end
