@@ -112,7 +112,7 @@ module Calendar
       end
 
       event = super()
-      Content_Category.create_for(event, param(:category_ids))
+      Content_Category.create_for(event, param(:category_id))
 
       redirect_date = param(:date_begin).split('.').reverse.join('.')
       exec_js("Aurita.load({ action: 'Calendar::Calendar/day/date=#{redirect_date}' });")

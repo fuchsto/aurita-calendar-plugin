@@ -15,23 +15,22 @@ module Calendar
     def calendar_box
     # return unless Aurita.user.may(:see_calendar)
       
-      body = []
-
-      if Aurita.user.may(:create_events) then
-        add_event = HTML.a(:class => :icon, 
-                           :onclick => "Aurita.load({ action: 'Calendar::Event/add/'});") { 
-          HTML.img(:src => '/aurita/images/icons/event_add.gif') + 
-          tl(:add_event) 
-        } 
-        body << add_event
-      end
-      body << HTML.div(:id => :calendar_box_month) { calendar_box_body }
 
       box        = Box.new(:type  => 'Calendar::calendar', 
                            :class => :topic, 
                            :id    => 'calendar_box')
+      body       = []
       box.header = tl(:calendar)
-      box.body   = body 
+
+      if Aurita.user.may(:create_events) then
+        body << Toolbar_Button.new(:icon => :add_event, 
+                                   :action => 'Calendar::Event/add') {
+          tl(:add_event) 
+        } 
+      end
+      body    << HTML.div(:id => :calendar_box_month) { calendar_box_body }
+      box.body = body
+      
       return box
     end
     
