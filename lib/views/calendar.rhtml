@@ -68,7 +68,7 @@
     if day.is_proxy? then
       style = 'color: #555555;'
       provide_link = false
-    elsif day.today? then 
+    elsif day == Date.today then 
       style = 'color: #ff0000;'
     elsif day.is_weekend? and !day.is_proxy? then
       style = 'color: #999999;'
