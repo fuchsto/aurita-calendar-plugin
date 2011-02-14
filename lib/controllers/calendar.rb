@@ -13,8 +13,7 @@ module Calendar
     cache_actions :show, :show_string, :day
 
     def calendar_box
-    # return unless Aurita.user.may(:see_calendar)
-      
+      return unless Aurita.user.may(:see_calendar)
 
       box        = Box.new(:type  => 'Calendar::calendar', 
                            :class => :topic, 
@@ -35,7 +34,7 @@ module Calendar
     end
     
     def calendar_box_body(year=nil, month=nil)
-    # return unless Aurita.user.may(:see_calendar)
+      return unless Aurita.user.may(:see_calendar)
 
       if month.nil? or year.nil? then
         d     = Time.now
@@ -52,7 +51,7 @@ module Calendar
     end
 
     def show
-    # return unless Aurita.user.may(:see_calendar)
+      return unless Aurita.user.may(:see_calendar)
 
       year  = param(:year)
       month = param(:month)

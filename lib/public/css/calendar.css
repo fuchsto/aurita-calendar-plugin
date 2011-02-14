@@ -1,5 +1,9 @@
 
 .icon_button.add_event .icon { 
-  background: url('/aurita/images/icons/event_add_16.png') no-repeat scroll 8px 4px; 
+  background: url('/aurita/images/icons/clock_add_16.png') no-repeat scroll 8px 4px; 
 }
 
+.calendar_mini_month .darker_bg { 
+  background: transparent none; 
+  color: #bfbfbf; 
+}
